@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import HeaderBlock from './components/HeaderBlock';
+
+import './index.css';
+
 const AppList = () => {
   const items = ['Items 1', 'Items 2', 'Items 3', 'Items 4'];
   const firstItems = <li>Items 0</li>;
@@ -22,7 +26,9 @@ const AppList = () => {
 //   return <h1>This is my Header!</h1>;
 // };
 
-const AppHeader = () => <h1 className="App-header">This is my Header!</h1>;
+const AppHeader = () => {
+  return <h1 className="header">This is my Header!</h1>;
+};
 
 const AppInput = () => {
   const placeholder = 'Type text...';
@@ -36,6 +42,7 @@ const AppInput = () => {
 const App = () => {
   return (
     <>
+      <HeaderBlock />
       <AppHeader />
       <AppInput />
       <AppList />
