@@ -2,9 +2,10 @@ import s from './style.module.css';
 console.log('s: ', s);
 
 const Layout = ({ title, desc, urlBg, colorBg }) => {
-  const layotBg = urlBg
-    ? { backgroundImage: `url("${urlBg}")` }
-    : { background: `${colorBg}` };
+  const layotBg = {
+    backgroundImage: urlBg ? `url("${urlBg}")` : null,
+    backgroundColor: `${colorBg}`,
+  };
   return (
     <>
       <section className={s.root} style={layotBg}>
