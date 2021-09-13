@@ -5,10 +5,8 @@ import cardBackSide from './assets/card-back-side.jpg';
 
 const PokemonCard = ({ name, img, id, type, values }) => {
   const [isActive, setActive] = useState(false);
-  console.log('isActive: ', isActive);
   const handleClick = () => {
     setActive(!isActive);
-    // console.log('Click to Pokemon with name ' + name);
   };
   return (
     <div className={s.root} onClick={handleClick}>
