@@ -9,7 +9,6 @@ import MenuHeader from '../../components/MenuHeader';
 
 const HomePage = ({ onChangePage }) => {
   const handleClickButton = (page) => {
-    console.log('###: <HomePage />');
     onChangePage && onChangePage(page);
   };
   return (
