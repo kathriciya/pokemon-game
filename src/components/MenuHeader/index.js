@@ -9,8 +9,12 @@ const MenuHeader = ({ bgActive }) => {
   };
   return (
     <>
-      <Menu isOpen={isOpen} />
-      <Navbar isOpen={isOpen} onClickHamburg={handleClickHamburg} />
+      <Menu isOpen={isOpen} onClickHamburg={handleClickHamburg} />
+      <Navbar
+        isOpen={isOpen}
+        bgActive={bgActive}
+        onClickHamburg={handleClickHamburg}
+      />
     </>
   );
 };

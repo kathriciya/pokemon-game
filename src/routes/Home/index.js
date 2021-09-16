@@ -1,11 +1,9 @@
 import s from './style.module.css';
 import POKEMONS from '../../pokemons.js';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import Layout from '../../components/Layout';
 import PokemonCard from '../../components/PokemonCard';
 import bg1 from '../../assets/bg1.jpg';
-import MenuHeader from '../../components/MenuHeader';
 
 const HomePage = ({ onChangePage }) => {
   const handleClickButton = (page) => {
@@ -13,7 +11,6 @@ const HomePage = ({ onChangePage }) => {
   };
   return (
     <>
-      <MenuHeader />
       <Header
         title="Pokemon Game"
         desc="This is simple triple triad card game"
@@ -71,7 +68,6 @@ const HomePage = ({ onChangePage }) => {
           the player's color instead.
         </p>
       </Layout>
-      <Footer />
     </>
   );
 };

@@ -3,7 +3,7 @@ import s from './style.module.css';
 
 const Navbar = ({ isOpen, onClickHamburg, bgActive = false }) => {
   return (
-    <nav id={s.navbar} className={cn(s.root, { [s.bgActive]: bgActive })}>
+    <nav className={cn(s.navbar, { [s.bgActive]: bgActive })}>
       <div className={s.navWrapper}>
         <p className={s.brand}>LOGO</p>
         <div
