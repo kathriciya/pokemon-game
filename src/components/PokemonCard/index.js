@@ -11,9 +11,10 @@ const PokemonCard = ({
   values,
   isActive,
   onClickPokemon,
+  objID,
 }) => {
   const handleClick = () => {
-    onClickPokemon && onClickPokemon(id);
+    onClickPokemon && onClickPokemon(id, isActive, objID);
   };
   return (
     <div className={s.root} onClick={handleClick}>
