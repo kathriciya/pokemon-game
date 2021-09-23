@@ -1,16 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
 import { FireBaseContext } from '../../../../context/firebaseContext';
 import { PokemonContext } from '../../../../context/pokemonContext';
-import s from './style.module.css';
 import Layout from '../../../../components/Layout';
 import PokemonCard from '../../../../components/PokemonCard';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import s from './style.module.css';
 
 const StartPage = () => {
   const firebase = useContext(FireBaseContext);
   const pokemonsContext = useContext(PokemonContext);
   const history = useHistory();
-  console.log('pokemonsContext: ', pokemonsContext);
   const [pokemons, setPokemons] = useState({});
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const StartPage = () => {
     });
 
     return () => firebase.offPokemonSoket();
-  }); //React Hook useEffect has a missing dependency: 'firebase'. Either include it or remove the dependency array
+  }, []);
 
   const handleChangeSelected = (key) => {
     const pokemon = { ...pokemons[key] };

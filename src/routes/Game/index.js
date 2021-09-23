@@ -6,14 +6,10 @@ import FinishPage from './routes/Finish';
 import { PokemonContext } from '../../context/pokemonContext';
 
 const GamePage = () => {
-  const [selectedPokemons, setselectedPokemons] = useState({});
+  const [selectedPokemons, setSelectedPokemons] = useState({});
   const match = useRouteMatch();
   const handleSelectedPokemons = (key, pokemon) => {
-    // console.log('handleSelectedPokemons: ', handleSelectedPokemons);
-    // console.log('pokemon: ', pokemon);
-    // console.log('key: ', key);
-
-    setselectedPokemons((prevState) => {
+    setSelectedPokemons((prevState) => {
       if (prevState[key]) {
         const copyState = { ...prevState };
         delete copyState[key];

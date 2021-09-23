@@ -35,6 +35,8 @@
 .card {
 	max-height: 14.8vw;
 	margin-top: -6vw;
+	max-width: 150px;
+	height: 380px;
 }
 
 .card:first-child {
