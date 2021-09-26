@@ -6,14 +6,12 @@ import FinishPage from './routes/Finish';
 import { PokemonContext } from '../../context/pokemonContext';
 
 const GamePage = () => {
-  const [selectedPokemons, setselectedPokemons] = useState({});
+  const [selectedPokemons, setSelectedPokemons] = useState({});
+  const [player2Context, setPlayer2Context] = useState([]);
+  const [winContext, setWinContext] = useState(false);
   const match = useRouteMatch();
   const handleSelectedPokemons = (key, pokemon) => {
-    // console.log('handleSelectedPokemons: ', handleSelectedPokemons);
-    // console.log('pokemon: ', pokemon);
-    // console.log('key: ', key);
-
-    setselectedPokemons((prevState) => {
+    setSelectedPokemons((prevState) => {
       if (prevState[key]) {
         const copyState = { ...prevState };
         delete copyState[key];
@@ -26,11 +24,20 @@ const GamePage = () => {
     });
   };
 
+  const handleClearContext = () => {
+    setSelectedPokemons({});
+  };
+
   return (
     <PokemonContext.Provider
       value={{
         pokemons: selectedPokemons,
+        pokemons2: player2Context,
+        setPlayer2Context: setPlayer2Context,
         onSelectedPokemons: handleSelectedPokemons,
+        clearContext: handleClearContext,
+        win: winContext,
+        setWin: setWinContext,
       }}
     >
       <Switch>
