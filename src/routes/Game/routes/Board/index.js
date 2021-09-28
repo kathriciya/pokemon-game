@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../components/PokemonCard';
 import s from './style.module.css';
 import PlayerBoard from './component/PlayerBoard';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPokemonsData } from '../../../../store/pokemons';
 
 const counterWin = (board, player1, player2) => {
   let player1Count = player1.length;
@@ -23,10 +25,12 @@ const counterWin = (board, player1, player2) => {
 const BoardPage = () => {
   const { pokemons, setPlayer2Context, setWin } = useContext(PokemonContext);
   const [board, setBoard] = useState([]);
+  const dispatch = useDispatch();
+  const pokemonsRedux = useSelector(selectPokemonsData);
   const [choiceCard, setChoiceCard] = useState(null);
   const [steps, setSteps] = useState(0);
   const [player1, setPlayer1] = useState(() => {
-    return Object.values(pokemons).map((item) => ({
+    return Object.values(pokemonsRedux).map((item) => ({
       ...item,
       possession: 'blue',
     }));
