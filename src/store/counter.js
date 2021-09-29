@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { act } from '@testing-library/react';
 
 export const slice = createSlice({
   name: 'counter',

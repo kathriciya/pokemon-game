@@ -2,25 +2,13 @@
 import Header from '../../components/Header';
 import Layout from '../../components/Layout';
 import bg1 from '../../assets/bg1.jpg';
-import { useHistory } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { plusAction, selectCount } from '../../store/counter';
 
 const HomePage = () => {
-  const history = useHistory();
-  // const count = useSelector(selectCount);
-  // const dispatch = useDispatch();
-  // console.log('count : ', count);
-  const handleClickButton = () => {
-    history.push('/game');
-    // dispatch(plusAction(1));
-  };
   return (
     <>
       <Header
         title="Pokemon Game"
         desc="This is simple triple triad card game"
-        onClickButton={handleClickButton}
       />
       <Layout title="Rules" desc="..." urlBg={bg1}>
         <p>

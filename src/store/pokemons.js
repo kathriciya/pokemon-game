@@ -7,6 +7,7 @@ export const slice = createSlice({
     isLoading: false,
     data: {},
     error: null,
+    win: null,
   },
   reducers: {
     fetchPokemons: (state) => ({
@@ -24,13 +25,13 @@ export const slice = createSlice({
       data: {},
       error: action.payload,
     }),
-    selectedPokemons: (state, action) => ({
-      ...state,
-      data: action.payload,
-    }),
     cleanPokemons: (state) => ({
       ...state,
       data: {},
+    }),
+    setWin: (state) => ({
+      ...state,
+      win: true,
     }),
   },
 });
@@ -39,28 +40,17 @@ export const {
   fetchPokemons,
   fetchPokemonsResolve,
   fetchPokemonsReject,
-  selectedPokemons,
   cleanPokemons,
+  setWin,
 } = slice.actions;
 export const selectPokemonsLoading = (state) => state.pokemons.isLoading;
 export const selectPokemonsData = (state) => state.pokemons.data;
+export const win = (state) => state.pokemons.win;
 
 export const getPokemonsAsync = () => async (dispatch) => {
   dispatch(fetchPokemons());
   const data = await FirebaseClass.getPokemonsOnce();
   dispatch(fetchPokemonsResolve(data));
 };
-export default slice.reducer;
 
-// 	handleSelectedPokemons: (state, {payload: {key, pokemon}}) => {
-// 		const newPokemons = {...state.selectedPokemons};
-//     if (newPokemons[key]) {
-//       delete newPokemons[key];
-//       return { ...state, selectedPokemons: newPokemons};
-//     }
-// 		if (Object.entries(state.selectedPokemons).length<5) {
-// 				newPokemons[key]=pokemon;
-// 			return{...state, selectedPokemons: newPokemons};
-// 		}
-//   }
-// }
+export default slice.reducer;

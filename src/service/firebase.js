@@ -33,8 +33,8 @@ class Firebase {
     return await this.database
       .ref('pokemons')
       .once('value')
-      .then('value', (snapshot) => {
-        snapshot.val();
+      .then((snapshot) => {
+        return snapshot.val();
       });
   };
 

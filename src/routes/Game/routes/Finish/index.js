@@ -1,32 +1,36 @@
 import React from 'react';
-import { useContext, useState } from 'react';
-import { PokemonContext } from '../../../../context/pokemonContext';
-import { FireBaseContext } from '../../../../context/firebaseContext';
+import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../components/PokemonCard';
 import PlayerBoard from '../Board/component/PlayerBoard';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPokemonsData, cleanPokemons } from '../../../../store/pokemons';
 import s from './style.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectChosenPokemonsData } from '../../../../store/chosenPokemons';
+import { selectEnemyData } from '../../../../store/enemy';
+import { cleanPokemons, win } from '../../../../store/pokemons';
+// import { cleanEnemy } from '../../../../store/enemy';
 import FirebaseClass from '../../../../service/firebase';
 
 const FinishPage = () => {
-  // const firebase = useContext(FireBaseContext);
-  const { pokemons, pokemons2, clearContext, win } = useContext(PokemonContext);
   const history = useHistory();
   const dispatch = useDispatch();
-  const pokemonsRedux = useSelector(selectPokemonsData);
+  const pokemons = useSelector(selectChosenPokemonsData);
+  console.log('pokemons: ', pokemons);
+  const pokemons2 = useSelector(selectEnemyData);
+  console.log('pokemons2 : ', pokemons2);
+  const winner = useSelector(win);
+
   const [selectedCard, setSelectedCard] = useState([]);
 
   if (
-    Object.keys(pokemonsRedux).length === 0 &&
+    Object.keys(pokemons).length === 0 &&
     Object.keys(pokemons2).length === 0
   ) {
     history.replace('/game');
   }
 
   const handleSelectedCard = (card) => {
-    if (win === true) {
+    if (winner) {
       setSelectedCard(card);
       console.log('card: ', card);
     }
@@ -34,7 +38,7 @@ const FinishPage = () => {
 
   const handleEndGame = () => {
     dispatch(cleanPokemons());
-    if (win === true) {
+    if (winner) {
       FirebaseClass.addPokemon(selectedCard);
     }
     if (selectedCard) {
@@ -44,7 +48,7 @@ const FinishPage = () => {
   return (
     <div className={s.root}>
       <div className={s.playerCards}>
-        {Object.values(pokemonsRedux).map((item) => {
+        {Object.values(pokemons).map((item) => {
           return (
             <PokemonCard
               className={s.card}

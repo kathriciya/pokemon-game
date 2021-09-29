@@ -1,6 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-// import { FireBaseContext } from '../../../../context/firebaseContext';
-import { PokemonContext } from '../../../../context/pokemonContext';
 import Layout from '../../../../components/Layout';
 import PokemonCard from '../../../../components/PokemonCard';
 import { useHistory } from 'react-router-dom';
@@ -9,18 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getPokemonsAsync,
   selectPokemonsData,
-  selectPokemonsLoading,
 } from '../../../../store/pokemons';
+import { getChosenPokemonsAsync } from '../../../../store/chosenPokemons';
 
 const StartPage = () => {
-  // const firebase = useContext(FireBaseContext);
-  // const isLoading = useSelector(selectPokemonsLoading);
-  const pokemonsContext = useContext(PokemonContext);
-  // const selectedPokemonsRadux = useSelector(selectedPokemons);
   const pokemonsRedux = useSelector(selectPokemonsData);
+  console.log('pokemonsRedux: ', pokemonsRedux);
   const dispatch = useDispatch();
   const history = useHistory();
   const [pokemons, setPokemons] = useState({});
+  const [chosenPokemons, setChosenPokemons] = useState({});
 
   useEffect(() => {
     dispatch(getPokemonsAsync());
@@ -32,7 +28,6 @@ const StartPage = () => {
 
   const handleChangeSelected = (key) => {
     const pokemon = { ...pokemons[key] };
-    pokemonsContext.onSelectedPokemons(key, pokemon);
 
     setPokemons((prevState) => ({
       ...prevState,
@@ -41,9 +36,21 @@ const StartPage = () => {
         selected: !prevState[key].selected,
       },
     }));
+    setChosenPokemons((prevState) => {
+      if (prevState[key]) {
+        const copyState = { ...prevState };
+        delete copyState[key];
+        return copyState;
+      }
+      return {
+        ...prevState,
+        [key]: pokemon,
+      };
+    });
   };
 
   const handleStartGameClick = () => {
+    dispatch(getChosenPokemonsAsync(chosenPokemons));
     history.push('/game/board');
   };
 
@@ -52,13 +59,13 @@ const StartPage = () => {
       <Layout title="GAME" desc="Описание" colorBg="red">
         <button
           onClick={handleStartGameClick}
-          disabled={Object.keys(pokemonsRedux).length < 5}
+          disabled={Object.keys(chosenPokemons).length < 5}
           className={s.button}
         >
           Start Game
         </button>
         <div className={s.flex}>
-          {Object.entries(pokemonsRedux).map(
+          {Object.entries(pokemons).map(
             ([key, { name, img, id, type, values, selected }]) => (
               <PokemonCard
                 className={s.card}
@@ -71,7 +78,7 @@ const StartPage = () => {
                 isActive={true}
                 isSelected={selected}
                 onClickPokemon={() => {
-                  if (Object.keys(pokemonsRedux).length < 5 || selected) {
+                  if (Object.keys(chosenPokemons).length < 5 || selected) {
                     handleChangeSelected(key);
                   }
                 }}
