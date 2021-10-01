@@ -33,8 +33,8 @@ class Firebase {
     return await this.database
       .ref('pokemons')
       .once('value')
-      .then('value', (snapshot) => {
-        snapshot.val();
+      .then((snapshot) => {
+        return snapshot.val();
       });
   };
 
@@ -51,4 +51,6 @@ class Firebase {
   };
 }
 
-export default Firebase;
+const FirebaseClass = new Firebase();
+
+export default FirebaseClass;
