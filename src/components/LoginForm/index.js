@@ -1,22 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '../Input';
 import s from './style.module.css';
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit, isResetField = false }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [auth, setAuth] = useState(false);
+  const [isLogin, setLogin] = useState(true);
+
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+  }, [isResetField]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit && onSubmit({ email, password, auth });
+    onSubmit &&
+      onSubmit({
+        type: isLogin ? 'login' : 'signup',
+        email,
+        password,
+      });
     setEmail('');
     setPassword('');
   };
 
-  const handleChoice = () => {
-    setAuth(!auth);
-  };
   return (
     <form onSubmit={handleSubmit}>
       <Input
@@ -35,10 +42,10 @@ const LoginForm = ({ onSubmit }) => {
         required
       />
       <div className={s.flex}>
-        <button>{auth ? 'Sing In' : 'Sing up'}</button>
-        <span className={s.question} onClick={handleChoice}>
-          {auth ? 'Register?' : 'Login?'}
-        </span>
+        <button>{isLogin ? 'Login' : 'Signup'}</button>
+        <div className={s.link} onClick={() => setLogin(!isLogin)}>
+          {isLogin ? 'Register?' : 'Login?'}
+        </div>
       </div>
     </form>
   );
