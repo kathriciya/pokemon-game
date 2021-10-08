@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../components/PokemonCard';
 import s from './style.module.css';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../components/PokemonCard';
 import PlayerBoard from '../Board/component/PlayerBoard';
@@ -10,6 +10,7 @@ import { selectEnemyData } from '../../../../store/enemy';
 import { cleanPokemons, win } from '../../../../store/pokemons';
 // import { cleanEnemy } from '../../../../store/enemy';
 import FirebaseClass from '../../../../service/firebase';
+import { selectLocalID } from '../../../../store/user';
 
 const FinishPage = () => {
   const history = useHistory();
@@ -19,6 +20,7 @@ const FinishPage = () => {
   const pokemons2 = useSelector(selectEnemyData);
   console.log('pokemons2 : ', pokemons2);
   const winner = useSelector(win);
+  const localId = useSelector(selectLocalID);
 
   const [selectedCard, setSelectedCard] = useState([]);
 
@@ -39,7 +41,7 @@ const FinishPage = () => {
   const handleEndGame = () => {
     dispatch(cleanPokemons());
     if (winner) {
-      FirebaseClass.addPokemon(selectedCard);
+      FirebaseClass.addPokemon(selectedCard, localId);
     }
     if (selectedCard) {
       history.replace('/game');

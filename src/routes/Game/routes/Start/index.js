@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../../../../components/Layout';
 import PokemonCard from '../../../../components/PokemonCard';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { getChosenPokemonsAsync } from '../../../../store/chosenPokemons';
 
 const StartPage = () => {
   const pokemonsRedux = useSelector(selectPokemonsData);
-  console.log('pokemonsRedux: ', pokemonsRedux);
+  // console.log('pokemonsRedux: ', pokemonsRedux);
   const dispatch = useDispatch();
   const history = useHistory();
   const [pokemons, setPokemons] = useState({});
