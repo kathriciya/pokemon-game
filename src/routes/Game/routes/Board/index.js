@@ -8,23 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { getEnemyAsync } from '../../../../store/enemy';
 // import { setWin } from '../../../../store/pokemons';
 import request from '../../../../service/request';
-import { selectPlayer1, setPlayer2 } from '../../../../store/game';
+import { selectPlayer1, setPlayer2, setResult } from '../../../../store/game';
 import { selectPokemonsData } from '../../../../store/pokemons';
-
-// const counterWin = (board, player1, player2) => {
-//   let player1Count = player1.length;
-//   let player2Count = player2.length;
-
-//   board.forEach((item) => {
-//     if (item.card.possession === 'red') {
-//       player2Count++;
-//     }
-//     if (item.card.possession === 'blue') {
-//       player1Count++;
-//     }
-//   });
-//   return [player1Count, player2Count];
-// };
+import { returnBoard } from '../../../../components/Utils';
+import { counterWin } from '../../../../components/Utils';
 
 const BoardPage = () => {
   const history = useHistory();
@@ -35,6 +22,7 @@ const BoardPage = () => {
   const [steps, setSteps] = useState(0);
   const [startSide, setStartSide] = useState(0);
   const [serverBoard, setServerBoard] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [typeResult, setTypeResult] = useState(null);
 
   const player1Selector = useSelector(selectPlayer1);
   const pokemonsSelector = useSelector(selectPokemonsData);
@@ -140,22 +128,6 @@ const BoardPage = () => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   if (steps === 9) {
-  //     const [count1, count2] = counterWin(board, player1, player2);
-
-  //     if (count1 > count2) {
-  //       alert('WIN');
-  //       dispatch(setWin());
-  //     } else if (count1 < count2) {
-  //       alert('LOSE');
-  //     } else {
-  //       alert('DRAW');
-  //     }
-  //     history.replace('/game/finish');
-  //   }
-  // }, [steps]);
-
   const handleClickBoardPlate = async (position) => {
     if (typeof choiceCard === 'object') {
       const params = {
@@ -192,6 +164,8 @@ const BoardPage = () => {
       const game = await request.game(params);
       console.log('game: ', game);
 
+      setBoard(returnBoard(game.oldBoard));
+
       setSteps((prevState) => {
         const count = prevState + 1;
         return count;
@@ -199,20 +173,52 @@ const BoardPage = () => {
 
       if (game.move !== null) {
         const idAi = game.move.poke.id;
-        setPlayer2State((prevState) =>
-          prevState.map((item) => {
-            if (item.id === idAi) {
-              return {
-                ...item,
-                selected: true,
-              };
-            }
-            return item;
-          })
-        );
+
+        setTimeout(() => {
+          setPlayer2State((prevState) =>
+            prevState.map((item) => {
+              if (item.id === idAi) {
+                return {
+                  ...item,
+                  selected: true,
+                };
+              }
+              return item;
+            })
+          );
+        }, 1000);
+
+        setTimeout(() => {
+          setPlayer2State(() => game.hands.p2.pokes.map((item) => item.poke));
+          setServerBoard(game.board);
+          setBoard(returnBoard(game.board));
+
+          setSteps((prevState) => {
+            const count = prevState + 1;
+            return count;
+          });
+        }, 1500);
       }
     }
   };
+
+  useEffect(() => {
+    if (steps === 9) {
+      const [count1, count2] = counterWin(board, player1, player2);
+
+      if (count1 > count2) {
+        setTypeResult('WIN');
+        dispatch(setResult('WIN'));
+      } else if (count1 < count2) {
+        setTypeResult('LOSE');
+        dispatch(setResult('LOSE'));
+      } else {
+        setTypeResult('DRAW');
+        dispatch(setResult('DRAW'));
+      }
+      history.replace('/game/finish');
+    }
+  }, [steps]);
 
   return (
     <div className={s.root}>
