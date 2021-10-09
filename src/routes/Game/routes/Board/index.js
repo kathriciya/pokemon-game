@@ -12,6 +12,8 @@ import { selectPlayer1, setPlayer2, setResult } from '../../../../store/game';
 import { selectPokemonsData } from '../../../../store/pokemons';
 import { returnBoard } from '../../../../components/Utils';
 import { counterWin } from '../../../../components/Utils';
+import ArrowChoice from '../../../../components/ArrowChoice';
+import Result from '../../../../components/Result';
 
 const BoardPage = () => {
   const history = useHistory();
@@ -222,6 +224,10 @@ const BoardPage = () => {
 
   return (
     <div className={s.root}>
+      {typeResult && <Result type={typeResult} />}
+      <div className={s.arrow}>
+        {!choiceCard && <ArrowChoice side={startSide} />}
+      </div>
       <div className={s.playerOne}>
         <PlayerBoard
           player={1}
