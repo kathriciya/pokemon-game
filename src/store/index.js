@@ -3,6 +3,7 @@ import pokemonsReducer from './pokemons';
 import chosenPokemonsReducer from './chosenPokemons';
 import enemyReducer from './enemy';
 import userReducer from './user';
+import gameReducer from './game';
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     chosenPokemons: chosenPokemonsReducer,
     enemy: enemyReducer,
     user: userReducer,
+    game: gameReducer,
   },
 });
